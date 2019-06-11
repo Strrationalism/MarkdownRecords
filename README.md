@@ -17,13 +17,13 @@
 - Text （单行文本，表示标题内容）
 
 可以包含的子节点：
-- Title
 - ListItem
 - Table
 - Text
 - Image
 - Json
 - Base64
+- Title （必须在最后）
 
 ## ListItem
 对应Markdown的列表行语法。
