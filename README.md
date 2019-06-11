@@ -12,12 +12,12 @@
 
 
 ## Title
-对应Markdown的1~5级标题语法，最深只有5级Titile。
+对应Markdown的标题语法。
 属性：
 - Text （单行文本，表示标题内容）
 
 可以包含的子节点：
-- Title （最深5层）
+- Title
 - ListItem
 - Table
 - Text
