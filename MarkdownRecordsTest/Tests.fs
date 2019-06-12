@@ -79,17 +79,19 @@ type Test () =
         let strDoc =
             MarkdownRecords.Generator.generate doc
 
-        printfn "== Generated =="
-        printfn "%s" strDoc
-
+        printfn "== Orginal AST =="
+        printfn "%A" doc
+            
         printfn "== Parsed AST =="
         let parsed = 
             strDoc
             |> MarkdownRecords.Parser.parse
-           
         parsed
         |> printfn "%A"
 
+        printfn "== Generated =="
+        printfn "%s" strDoc
+           
         printfn "== Regenerated =="
         let regenerated =
             parsed
@@ -98,5 +100,7 @@ type Test () =
         |> printfn "%s"
 
         let c = parsed = doc
+        let c2 = regenerated = strDoc
         Assert.IsTrue c
+        Assert.IsTrue c2
 

@@ -8,14 +8,52 @@ module private Parsers =
 
     type ContentParser = string[] -> (TitleContent * string[]) option
 
-    let parseTableListItem : ContentParser = (fun x -> None)
+    let parseListItem input =
+        let rec parse level (input:string[]) : (ListItem * string[]) option =
+            let headerSpaces =
+                String.init level (fun _ -> "   ")
+            match Array.tryHead input with
+            | Some head when head.StartsWith headerSpaces ->
+                let trimed = head.TrimStart()
+
+                try
+                    let style,text =
+                        match trimed with
+                        | x when x.StartsWith "- [ ]" -> Some (Todo false),x.[5..]
+                        | x when x.StartsWith "- [x]" -> Some (Todo true),x.[5..]
+                        | x when x.StartsWith "*" -> Some Star, x.[1..]
+                        | x when x.StartsWith "-" -> Some Minus, x.[1..]
+                        | x when x.StartsWith "+" -> Some Plus, x.[1..]
+                        | x when x.[..x.IndexOf '.'].ToCharArray() |> Array.forall (fun c -> c >= '0' && c <= '9') -> Some Number,x.[1+x.IndexOf '.'..]
+                        | _ -> None,""
+                    match style with
+                    | None -> None
+                    | Some style ->
+                        let children,remainder = parseSome (level+1) (Array.tail input)
+                        let item = {
+                            text = text.Trim()
+                            style = style
+                            children = children
+                        }
+                        (item,remainder) |> Some
+                with _ -> None
+            | _ -> None
+        and parseSome level (input:string[]) : ListItem list * string[] =
+            match parse level input with
+            | Some (item,remainders) ->
+                let items,finalRemainders = parseSome level remainders
+                item :: items, finalRemainders
+            | None -> [],input
+
+        parse 0 input
+        |> Option.map (fun (a,b) -> ListItem a,b)
 
     let parseTable : ContentParser = (fun input ->
         let popLine (line:string) : string[] option =
             try
                 let trimed = line.Trim()
                 if trimed.StartsWith "|" && trimed.EndsWith "|" then
-                    trimed.[1..trimed.Length-1].Split '|'
+                    trimed.[1..trimed.Length-2].Split '|'
                     |> Array.map (fun x -> x.Trim())
                     |> Some
                 else None
@@ -83,14 +121,14 @@ module private Parsers =
             let pos2 = head.IndexOf '('
 
             if pos1 = -1 || pos2 = -1 then None
-            else Some(Image (image head.[2..pos1] head.[pos2+1..head.Length-1]) ,Array.tail input)
+            else Some(Image (image head.[2..pos1-1] head.[pos2+1..head.Length-2]) ,Array.tail input)
         | _ -> None)
 
     let parseText : ContentParser = (fun input ->
         Some(Array.head input |> Text, Array.tail input))
 
     let contentParsers = [
-        parseTableListItem
+        parseListItem
         parseTable
         parseCode "json" (Json.Parse >> Json)
         parseCode "base64" (Convert.FromBase64String >> Base64)
@@ -150,7 +188,7 @@ module private Parsers =
                         |> Array.tryFindIndex (fun x -> x.StartsWith childTitleHead)
                     match endingPosition with
                     | Some endingPosition ->
-                        content.[..endingPosition]
+                        content.[..endingPosition-1]
                     | None -> content
                     |> parseContent
                     |> List.filter ((<>) (Text ""))
