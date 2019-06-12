@@ -76,5 +76,16 @@ type TestClass () =
                 title "2" [] []
             [title1;title2]
 
-        MarkdownRecords.Generator.generate doc
+        let strDoc =
+            MarkdownRecords.Generator.generate doc
+
+        printfn "== Generated =="
+        printfn "%s" strDoc
+
+        printfn "== Parsed =="
+        let parsed = 
+            strDoc
+            |> MarkdownRecords.Parser.parse
+            |> MarkdownRecords.Generator.generate
+        parsed
         |> printfn "%s"
