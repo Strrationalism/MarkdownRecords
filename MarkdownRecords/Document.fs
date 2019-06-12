@@ -2,21 +2,16 @@ module MarkdownRecords.Document
 
 open FSharp.Data
 
-type Json = {
-    content : JsonValue
+type Json = JsonValue
+
+type Base64 = byte[]
+
+type Image = {
+    name : string
+    url : string
 }
 
-type Base64 = {
-    content : byte[]
-}
-
-type Image = 
-| Base64Image of byte[]
-| URLImage of string
-
-type Text = {
-    content : string
-}
+type Text = string
 
 type Table = {
     header : string []
@@ -27,7 +22,7 @@ type ListItemStyle =
 | Star
 | Minus
 | Plus
-| Number of int
+| Number
 | Todo of bool
 
 type ListItem = {

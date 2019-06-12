@@ -6,6 +6,8 @@
 
   <ItemGroup>
     <Compile Include="Document.fs" />
+    <Compile Include="Builder.fs" />
+    <Compile Include="Generator.fs" />
   </ItemGroup>
 
   <ItemGroup>
