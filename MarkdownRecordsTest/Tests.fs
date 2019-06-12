@@ -7,7 +7,7 @@ open Microsoft.VisualStudio.TestTools.UnitTesting
  open MarkdownRecords.Document
 
 [<TestClass>]
-type TestClass () =
+type Test () =
 
     [<TestMethod>]
     member this.TestGenerate () =
@@ -48,11 +48,11 @@ type TestClass () =
 
             let table = {
                 header = [|"母猪";"状态"|]
-                content = [|
+                content = [
                     [|"小明";"产后护理"|]
                     [|"小红";"产后护理"|]
                     [|"小白";"螺旋升天"|]
-                |]
+                ]
             }
 
             let title1 =
@@ -82,10 +82,21 @@ type TestClass () =
         printfn "== Generated =="
         printfn "%s" strDoc
 
-        printfn "== Parsed =="
+        printfn "== Parsed AST =="
         let parsed = 
             strDoc
             |> MarkdownRecords.Parser.parse
-            |> MarkdownRecords.Generator.generate
+           
         parsed
+        |> printfn "%A"
+
+        printfn "== Regenerated =="
+        let regenerated =
+            parsed
+            |> MarkdownRecords.Generator.generate
+        regenerated
         |> printfn "%s"
+
+        let c = parsed = doc
+        Assert.IsTrue c
+

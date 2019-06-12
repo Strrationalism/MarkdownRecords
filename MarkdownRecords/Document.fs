@@ -15,7 +15,7 @@ type Text = string
 
 type Table = {
     header : string []
-    content : string [][]
+    content : string [] list
 }
 
 type ListItemStyle =

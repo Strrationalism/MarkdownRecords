@@ -62,7 +62,7 @@ module private Generators =
         builder.AppendLine () |> ignore
 
         table.content
-        |> Array.iter (fun line ->
+        |> List.iter (fun line ->
             builder.Append '|' |> ignore
             line
             |> Array.iter (fun cell -> 
