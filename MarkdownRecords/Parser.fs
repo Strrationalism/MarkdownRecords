@@ -77,9 +77,9 @@ module private Parsers =
             | Some header ->
                 match Array.tryHead (Array.tail input) with
                 | None -> None
-                | Some _ ->
+                | Some r ->
                     match  input |> Array.tail |> Array.tail with
-                    | [||] -> None
+                    | [||] -> Some({ header = header;content = [] } |> Table,input |> Array.tail |> Array.tail)
                     | remainder ->
                         let content,afterTable = popContent remainder
                         ({
