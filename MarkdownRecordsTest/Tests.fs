@@ -12,33 +12,6 @@ type Test () =
     [<TestMethod>]
     member this.TestGenerate () =
         let doc =
-            let json = 
-                """
-                    {
-                        "glossary": {
-                            "title": "example glossary",
-                    		"GlossDiv": {
-                                "title": "S",
-                    			"GlossList": {
-                                    "GlossEntry": {
-                                        "ID": "SGML",
-                    					"SortAs": "SGML",
-                    					"GlossTerm": "Standard Generalized Markup Language",
-                    					"Acronym": "SGML",
-                    					"Abbrev": "ISO 8879:1986",
-                    					"GlossDef": {
-                                            "para": "A meta-markup language, used to create markup languages such as DocBook.",
-                    						"GlossSeeAlso": ["GML", "XML"]
-                                        },
-                    					"GlossSee": "markup"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                """
-                |> Json.Parse
-
             let base64 = 
                 "I am fucking your ass."
                 |> System.Text.Encoding.Default.GetBytes
@@ -65,7 +38,7 @@ type Test () =
                                     "Item 1.2"
                                     "Item 1.3"]
                                 |> list (Todo false))
-                        title "1.1.1" [Base64 base64;Json json;Text text;Image img;ListItem item;ListItem (listItem Minus "Item 2" []);Table table] []
+                        title "1.1.1" [Base64 base64;Text text;Image img;ListItem item;ListItem (listItem Minus "Item 2" []);Table table] []
                     let title1_1_2 =
                         title "1.1.2" [] []
                     title "1.1" [] [title1_1_1;title1_1_2]

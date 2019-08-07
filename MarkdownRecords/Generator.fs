@@ -12,13 +12,6 @@ module private Generators =
             .AppendLine("```")
             |>ignore
 
-    let genJson (builder:StringBuilder) (json:Json) =
-        builder
-            .AppendLine("```json")
-            .AppendLine(string json)
-            .AppendLine("```")
-            |> ignore
-
     let genImage (builder:StringBuilder) image =
         builder
             .Append('!')
@@ -103,7 +96,6 @@ module private Generators =
         | Table c -> genTable builder c
         | Text c -> genText builder c
         | Image c -> genImage builder c
-        | Json c -> genJson builder c
         | Base64 c -> genBase64 builder c
 
     let rec genTitle level (builder:StringBuilder) title =

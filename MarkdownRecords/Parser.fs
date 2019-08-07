@@ -130,7 +130,6 @@ module private Parsers =
     let contentParsers = [
         parseListItem
         parseTable
-        parseCode "json" (Json.Parse >> Json)
         parseCode "base64" (Convert.FromBase64String >> Base64)
         parseImage
         parseText

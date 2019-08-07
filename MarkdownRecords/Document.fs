@@ -1,9 +1,5 @@
 module MarkdownRecords.Document
 
-open FSharp.Data
-
-type Json = JsonValue
-
 type Base64 = byte[]
 
 type Image = {
@@ -36,7 +32,6 @@ type TitleContent =
 | Table of Table
 | Text of Text
 | Image of Image
-| Json of Json
 | Base64 of Base64
 
 type Title = {
