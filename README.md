@@ -25,7 +25,6 @@
 - Table
 - Text
 - Image
-- Json
 - Base64
 - Title （必须在最后）
 
@@ -63,9 +62,6 @@
    - Base64
    - URL
 - Content
-
-## Json
-内联Json。
 
 ## Base64
 内联Base64。
