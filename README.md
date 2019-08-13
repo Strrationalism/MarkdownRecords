@@ -1,7 +1,6 @@
 # MarkdownRecords
 对于人类和程序来说都简单易读的Markdown子集。
 
-[![Build status](https://dev.azure.com/StrrationalismTeam/OpenSource%20Pipes/_apis/build/status/OpenSource%20Pipes-.NET%20Desktop-CI)](https://dev.azure.com/StrrationalismTeam/OpenSource%20Pipes/_build/latest?definitionId=5)
 [![Build status](https://ci.appveyor.com/api/projects/status/mbd34nbtwyuuf1bj?svg=true)](https://ci.appveyor.com/project/SmallLuma/markdownrecords)
 
 
